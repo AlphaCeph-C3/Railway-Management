@@ -4,9 +4,11 @@
 
 import os
 import time
+from pathlib import Path
 
 
 # Functions
+
 
 def About():
     """
@@ -15,7 +17,11 @@ def About():
     Parameters -> None
     """
     # Change the path given here to the absolute path of the README file
-    with open(FULL_PATH_TO_THE_README_FILE) as file:
+    filePath = Path.joinpath(Path.cwd(), "README.md")
+    with open(
+        filePath,
+        "r",
+    ) as file:
         data = file.read()
         print(data)
 
@@ -29,7 +35,7 @@ def ClearScreen():
 
     print("Clearing..")
     time.sleep(2)
-    os.system("cls")
+    os.system("clear")
 
 
 def Menu(answer="Yes"):
@@ -52,3 +58,7 @@ def Menu(answer="Yes"):
         print("9. Exit")
     else:
         pass
+
+
+if __name__ == "__main__":
+    About()

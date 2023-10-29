@@ -16,7 +16,7 @@ if connection_status is False:
 else:
     Check.CheckDatabase()  # Checking for the Requirements of the Project
 
-Other.ClearScreen()  # Clear the Terminal Window
+# Other.ClearScreen()  # Clear the Terminal Window
 
 # Final Imports
 

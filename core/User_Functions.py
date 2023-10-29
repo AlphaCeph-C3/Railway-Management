@@ -29,11 +29,12 @@ def AvailableTrains():
     """
     AvailableTrains() -> Shows the List of Available Trains according to the User Requirement
 
-    Parameters -> None   
+    Parameters -> None
     """
 
-    mn = mysql.connector.connect(host="localhost", user=YOUR_USERNAME,
-                                 password=YOUR_PASSWORD, database="railway")
+    mn = mysql.connector.connect(
+        host="localhost", user="root", password="rahul1234", database="railway"
+    )
     cur = mn.cursor()
 
     print("Search by Entering the Station Codes!")
@@ -43,18 +44,25 @@ def AvailableTrains():
     date_user = datetime.datetime.strptime(date, "%Y-%m-%d").date()
     while date_user < current_date or date_user > max_date:
         print("Please enter a Valid Date!")
-        date = input("Date(DD/MM/YYYY): ")
+        date = input("Date(YYYY-MM-DD): ")
         date_user = datetime.datetime.strptime(date, "%Y-%m-%d")
         date_user = date_user.date()
 
     cur.execute(
         'SELECT Train_No, Source_Station_Name, Destination_Station_Name, Arrival_Time, Departure_Time from train_info where Source_Station_Code="{}" AND Destination_Station_Code="{}";'.format(
-            start_opt, final_opt))
+            start_opt, final_opt
+        )
+    )
     result = cur.fetchall()
-    os.system("cls")
+    os.system("clear")
     time.sleep(1)
-    head = ["Train_No", "Source_Station_Name",
-            "Destination_Station_Name", "Arrival_Time", "Departure_Time"]
+    head = [
+        "Train_No",
+        "Source_Station_Name",
+        "Destination_Station_Name",
+        "Arrival_Time",
+        "Departure_Time",
+    ]
     if len(result) >= 10:
         try:
             print("Total of", len(result), "Records Found!")
@@ -85,23 +93,25 @@ def CheckFare():
     Parameters -> None
     """
 
-    mn = mysql.connector.connect(host="localhost", user=YOUR_USERNAME,
-                                 password=YOUR_PASSWORD, database="railway")
+    mn = mysql.connector.connect(
+        host="localhost", user="root", password="rahul1234", database="railway"
+    )
     cur = mn.cursor()
 
     print("Search by Entering the Station Code!")
 
-    header = [("Train_No", "Distance", "Sleeper",
-               "Third_AC", "Second_AC", "First_AC")]
+    header = [("Train_No", "Distance", "Sleeper", "Third_AC", "Second_AC", "First_AC")]
     start_opt = input("From: ")
     final_opt = input("To: ")
 
     cur.execute(
         'SELECT Train_No, Distance from train_info where Source_Station_Code="{}" AND Destination_Station_Code="{}";'.format(
-            start_opt, final_opt))
+            start_opt, final_opt
+        )
+    )
     result_fare = cur.fetchall()
     time.sleep(1)
-    os.system("cls")
+    os.system("clear")
     if len(result_fare) >= 10:
         try:
             print("Total of", len(result_fare), "Records Found!")
@@ -113,16 +123,36 @@ def CheckFare():
             print(" ")
             for x in range(ask):
                 y = result_fare[x]
-                print(result_fare[x], "Rs.", int(y[1]) * sleeper_charge, "Rs.", int(y[1]) * third_ac_charge, "Rs.",
-                      int(y[1]) * second_ac_charge, "Rs.", int(y[1]) * first_ac_charge, "\n")
+                print(
+                    result_fare[x],
+                    "Rs.",
+                    int(y[1]) * sleeper_charge,
+                    "Rs.",
+                    int(y[1]) * third_ac_charge,
+                    "Rs.",
+                    int(y[1]) * second_ac_charge,
+                    "Rs.",
+                    int(y[1]) * first_ac_charge,
+                    "\n",
+                )
     elif len(result_fare) == 0:
         print("No Available Trains!")
     else:
         print(header)
         print(" ")
         for x in result_fare:
-            print(x, "Rs.", int(x[1]) * sleeper_charge, "Rs.", int(x[1]) * third_ac_charge, "Rs.",
-                  int(x[1]) * second_ac_charge, "Rs.", int(x[1]) * first_ac_charge, "\n")
+            print(
+                x,
+                "Rs.",
+                int(x[1]) * sleeper_charge,
+                "Rs.",
+                int(x[1]) * third_ac_charge,
+                "Rs.",
+                int(x[1]) * second_ac_charge,
+                "Rs.",
+                int(x[1]) * first_ac_charge,
+                "\n",
+            )
 
     cur.close()
     mn.close()
@@ -135,8 +165,9 @@ def ShowBookings():
     Parameters -> None
     """
 
-    mn = mysql.connector.connect(host="localhost", user=YOUR_USERNAME,
-                                 password=YOUR_PASSWORD, database="railway")
+    mn = mysql.connector.connect(
+        host="localhost", user="root", password="rahul1234", database="railway"
+    )
     cur = mn.cursor()
 
     mobile_no = input("Please Enter your 10 Digit Mobile Number: ")
@@ -148,8 +179,17 @@ def ShowBookings():
         print("No Records Found!")
     else:
         booking_no = 1
-        print(["Train_No", "Passenger_Name", "Mobile_No",
-               "Passenger_Adhaar", "Time_Of_Booking", "Booking_ID", "Class"])
+        print(
+            [
+                "Train_No",
+                "Passenger_Name",
+                "Mobile_No",
+                "Passenger_Adhaar",
+                "Time_Of_Booking",
+                "Booking_ID",
+                "Class",
+            ]
+        )
         for x in result:
             print("BOOKING NO", booking_no, ":", x, "\n")
             booking_no += 1
@@ -165,8 +205,9 @@ def BookTrain():
     Parameters -> None
     """
 
-    mn = mysql.connector.connect(host="localhost", user=YOUR_USERNAME,
-                                 password=YOUR_PASSWORD, database="railway")
+    mn = mysql.connector.connect(
+        host="localhost", user="root", password="rahul1234", database="railway"
+    )
     cur = mn.cursor()
     while True:
         try:
@@ -220,7 +261,7 @@ def BookTrain():
 
     # Creating Unique ID for each Booking
     id = random.randint(1, 10000)
-    cur.execute("SELECT Booking_ID FROM BOOKINGS")
+    cur.execute("SELECT Booking_ID FROM bookings")
     result = cur.fetchall()
     Used_ID = []
     for x in result:
@@ -258,7 +299,8 @@ def BookTrain():
             print("Booking...")
             try:
                 query = "INSERT INTO bookings values({}, '{}', '{}', '{}', '{}', {}, '{}')".format(
-                    train_no, Name, Mobile, adhaar, date, id, Class)
+                    train_no, Name, Mobile, adhaar, date, id, Class
+                )
                 cur.execute(query)
             except DataError:
                 print("Error in Booking!")
@@ -271,7 +313,7 @@ def BookTrain():
         elif ask in ["N", "n"]:
             print("Stopping Booking...")
             time.sleep(0.5)
-            os.system("cls")
+            os.system("clear")
             break
         else:
             print("Please Enter Y (Yes) or N (No)!")
@@ -284,11 +326,14 @@ def CancelBooking():
     Parameters -> None
     """
 
-    mn = mysql.connector.connect(host="localhost", user=YOUR_USERNAME,
-                                 password=YOUR_PASSWORD, database="railway")
+    mn = mysql.connector.connect(
+        host="localhost", user="root", password="rahul1234", database="railway"
+    )
     cur = mn.cursor()
 
-    print("Please use the Show my Bookings Option\n to get the Unique ID of the Booking you want to Cancel!")
+    print(
+        "Please use the Show my Bookings Option\n to get the Unique ID of the Booking you want to Cancel!"
+    )
 
     while True:
         try:
@@ -304,20 +349,30 @@ def CancelBooking():
                 print("ID Out of Range!")
             elif len(str(unique_id)) != 0 and unique_id >= 1 and unique_id <= 10000:
                 cur.execute(
-                    "SELECT * FROM bookings WHERE Booking_ID={}".format(unique_id))
+                    "SELECT * FROM bookings WHERE Booking_ID={}".format(unique_id)
+                )
                 result = cur.fetchall()
                 if len(result) == 0:
                     print("No Records Found!")
                     break
-                print(["Train_No", "Passenger_Name", "Mobile_No",
-                       "Passenger_Adhaar", "Time_Of_Booking", "Booking_ID"])
+                print(
+                    [
+                        "Train_No",
+                        "Passenger_Name",
+                        "Mobile_No",
+                        "Passenger_Adhaar",
+                        "Time_Of_Booking",
+                        "Booking_ID",
+                    ]
+                )
                 for x in result:
                     print(x)
                 while True:
                     ask = input("Are you Sure you want to Cancel this(Y/N): ")
                     if ask in ["Y", "y"]:
                         cur.execute(
-                            "DELETE FROM bookings WHERE Booking_ID={}".format(unique_id))
+                            "DELETE FROM bookings WHERE Booking_ID={}".format(unique_id)
+                        )
                         print("Deleted!")
                         mn.commit()
                         cur.close()

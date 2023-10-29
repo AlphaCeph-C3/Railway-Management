@@ -18,8 +18,7 @@ def CheckDatabase():
 
     print("Checking Database Requirements..")
 
-    db = con.connect(host="localhost", user=YOUR_USERNAME,
-                     database="", password=YOUR_PASSWORD)
+    db = con.connect(host="localhost", user="root", database="", password="rahul1234")
     cur = db.cursor()
     result = None
 
@@ -52,14 +51,18 @@ def CreateTables():
     Parameters -> None
     """
 
-    db = con.connect(host="localhost", user=YOUR_USERNAME,
-                     database="railway", password=YOUR_PASSWORD)
+    db = con.connect(
+        host="localhost", user="root", database="railway", password="rahul1234"
+    )
     cur = db.cursor()
 
     cur.execute(
-        "create table train_info (Train_No varchar(10) NOT NULL, Station_Code varchar(20) NOT NULL, Station_Name varchar(30) NOT NULL, Arrival_Time varchar(20) NOT NULL, Departure_Time varchar(20) NOT NULL, Distance varchar(10) NOT NULL, Source_Station_Code varchar(20) NOT NULL, Source_Station_Name varchar(70) NOT NULL, Destination_Station_Code varchar(20) NOT NULL, Destination_Station_Name varchar(60) NOT NULL);")
+        "create table train_info (Train_No varchar(10) NOT NULL, Station_Code varchar(20) NOT NULL, Station_Name varchar(30) NOT NULL, Arrival_Time varchar(20) NOT NULL, Departure_Time varchar(20) NOT NULL, Distance varchar(10) NOT NULL, Source_Station_Code varchar(20) NOT NULL, Source_Station_Name varchar(70) NOT NULL, Destination_Station_Code varchar(20) NOT NULL, Destination_Station_Name varchar(60) NOT NULL);"
+    )
 
-    cur.execute("create table bookings (Train_No int NOT NULL, Passenger_Name varchar(30) NOT NULL, Mobile_No varchar(10) NOT NULL, Passenger_Adhaar varchar(12) NOT NULL, Date_Of_Booking varchar(20) NOT NULL, Booking_ID int NOT NULL, Class varchar(20) NOT NULL);")
+    cur.execute(
+        "create table bookings (Train_No int NOT NULL, Passenger_Name varchar(30) NOT NULL, Mobile_No varchar(10) NOT NULL, Passenger_Adhaar varchar(12) NOT NULL, Date_Of_Booking varchar(20) NOT NULL, Booking_ID int NOT NULL, Class varchar(20) NOT NULL);"
+    )
 
     Insert.InsertDataTrain()
 
@@ -76,17 +79,17 @@ def CheckConnection():
 
     try:
         print("Checking the Connection to the MySQL Server..")
-        connection = con.connect(host='localhost',
-                                 database='',
-                                 user=YOUR_USERNAME,
-                                 password=YOUR_PASSWORD)
+        connection = con.connect(
+            host="localhost", database="", user="root", password="rahul1234"
+        )
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server Version", db_Info)
 
     except Error:
-
-        print("Error connecting to MySQL Server, Make sure the MySQL Server is running and then try again!")
+        print(
+            "Error connecting to MySQL Server, Make sure the MySQL Server is running and then try again!"
+        )
         print("Exiting!")
         return False
 

@@ -4,6 +4,7 @@
 
 import csv
 import mysql.connector as con
+from pathlib import Path
 
 # Functions
 
@@ -15,24 +16,35 @@ def InsertDataTrain():
     Parameters -> None
     """
 
-    mn = con.connect(host="localhost",
-                     user=YOUR_USERNAME,
-                     password=YOUR_PASSWORD,
-                     database="railway")
+    mn = con.connect(
+        host="localhost", user="root", password="rahul1234", database="railway"
+    )
 
     cur = mn.cursor()
 
     # Iterating through all the values and insert's them in the table
     # Replace the path below with the absolute path of the file on your computer
+    filePath = Path.joinpath(Path.cwd(), "Assets/Train_details.csv")
+    print(filePath)
     try:
-        with open(FULL_PATH_TO_THE_CSV_FILE) as csv_data:
+        with open(
+            filePath,
+            "r",
+        ) as csv_data:
             csv_reader = csv.reader(csv_data, delimiter=",")
             for row in csv_reader:
                 cur.execute(
-                    'INSERT INTO train_info VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', row)
+                    "INSERT INTO train_info VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", row
+                )
     except FileNotFoundError:
-        print("Please check whether the file is in the Assets Folder or not and try changing the Location in InsertData.py")
+        print(
+            "Please check whether the file is in the Assets Folder or not and try changing the Location in InsertData.py"
+        )
     finally:
         mn.commit()  # Important: Committing the Changes
         cur.close()
         mn.close()
+
+
+if __name__ == "__main__":
+    InsertDataTrain()
