@@ -61,7 +61,7 @@ def CreateTables():
     )
 
     cur.execute(
-        "create table bookings (Train_No int NOT NULL, Passenger_Name varchar(30) NOT NULL, Mobile_No varchar(10) NOT NULL, Passenger_Adhaar varchar(12) NOT NULL, Date_Of_Booking varchar(20) NOT NULL, Booking_ID int NOT NULL, Class varchar(20) NOT NULL);"
+        "create table bookings (Booking_ID SERIAL UNIQUE NOT NULL, Train_No int NOT NULL, Passenger_Name varchar(30) NOT NULL, Mobile_No varchar(10) NOT NULL, Passenger_Adhaar varchar(12) NOT NULL, Date_Of_Booking varchar(20) NOT NULL, Class varchar(20) NOT NULL);"
     )
 
     Insert.InsertDataTrain()
